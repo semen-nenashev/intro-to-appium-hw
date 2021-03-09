@@ -13,12 +13,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 import static java.lang.System.getenv;
 import static org.testng.Assert.assertEquals;
 
 public class SampleAppTest {
     private AppiumDriverLocalService server;
     private AppiumDriver<MobileElement> driver;
+    private String apkpath="/Users/semen/IdeaProjects/intro-to-appium-hw/TestApp.app.zip";
+    private File app=new File(apkpath);
 
     @BeforeClass
     private void setUp() {
@@ -29,7 +33,7 @@ public class SampleAppTest {
 
         if (platform.equals("ANDROID")) {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "PUT_YOUR_DEVICE_NAME");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Pixel 2");
             capabilities.setCapability(MobileCapabilityType.APP, path + "/ApiDemos-debug.apk");
 
             server = new AppiumServiceBuilder().usingAnyFreePort().build();
@@ -39,11 +43,11 @@ public class SampleAppTest {
             ((AndroidDriver<MobileElement>) driver).startActivity(new Activity("io.appium.android.apis", ".view.TextFields"));
         } else {
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "PUT_YOUR_XCODE_VERSION_HERE");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12.4");
             capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCuiTest");
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "PUT_YOUR_DEVICE_NAME_HERE");
-            capabilities.setCapability(MobileCapabilityType.UDID, "PUT_YOUR_DEVICE_UDID_HERE");
-            capabilities.setCapability(MobileCapabilityType.APP, path + "/TestApp.app.zip");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+            capabilities.setCapability(MobileCapabilityType.UDID, "437A7BDB-5305-42A1-99AC-65DF38C98695");
+            capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
             server = new AppiumServiceBuilder().usingAnyFreePort().build();
             server.start();
@@ -54,8 +58,9 @@ public class SampleAppTest {
     @Test
     public void textFieldTest() {
         // TODO initialise PageView and set "text" to its textField
-
-        // TODO assert that textField equals to "text"
+        PageView firstPage = new PageView(driver);
+        firstPage.setTextField("text");
+        assertEquals(firstPage.getTextField(), "text", "Test failed");
     }
 
     @AfterClass
