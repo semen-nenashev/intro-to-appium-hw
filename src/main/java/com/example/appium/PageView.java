@@ -13,7 +13,9 @@ import javax.xml.xpath.XPathConstants;
 
 public class PageView {
     AppiumDriver<MobileElement> driver;
-    @iOSXCUITFindBy(iOSClassChain ="**/XCUIElementTypeTextField[`label == \"TextField1\"`]") MobileElement textField;
+    @iOSXCUITFindBy(iOSClassChain ="**/XCUIElementTypeTextField[`label == \"TextField1\"`]")
+    @AndroidFindBy(id = "edit")
+    MobileElement textField;
     // TODO define textField MobileElement using @FindBy kind of annotations for iOS and Android
 
     public PageView(AppiumDriver<MobileElement> driver) {
